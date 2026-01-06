@@ -81,7 +81,8 @@ export default function App() {
           </div>
 
           {/* Center: Desktop Links (Visible on XL+, Absolute Center) */}
-          <div className="hidden xl:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-12 font-cyber tracking-widest text-sm z-0">
+          {/* Tightened gap on XL, expanded on 2XL+ to prevent overlap */}
+          <div className="hidden xl:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-6 min-[1600px]:gap-12 font-cyber tracking-widest text-sm z-0">
             <button onClick={goDown} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">How It Works</button>
             <button onClick={goLeft} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">Tournaments</button>
             <button onClick={goRight} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">Contact Us</button>
@@ -91,13 +92,14 @@ export default function App() {
           <div className="flex items-center gap-4 md:gap-6 z-10 shrink-0">
              
              {/* Desktop Buttons & Socials Container */}
-             <div className="hidden md:flex items-center gap-6">
-                 {/* Socials - Hidden on smaller desktops to prevent overlap with center links */}
-                 <div className="hidden 2xl:block scale-75 origin-right">
+             <div className="hidden md:flex items-center gap-4 lg:gap-6">
+                 {/* Socials - Only show on very wide screens (1600px+) to prevent overlap with Center Links */}
+                 <div className="hidden min-[1600px]:block scale-75 origin-right">
                     <SocialIconsBar />
                  </div>
 
-                 <div className="hidden 2xl:block h-8 w-px bg-white/20 mx-2" />
+                 {/* Divider - Only visible if socials are visible */}
+                 <div className="hidden min-[1600px]:block h-8 w-px bg-white/20 mx-2" />
 
                  <button className={navButtonClass}>
                    Log In
@@ -107,8 +109,9 @@ export default function App() {
                  </button>
              </div>
 
-             {/* Mobile/Tablet Menu Toggle (Visible up to XL) */}
-             <div className="flex items-center gap-4 xl:hidden">
+             {/* Mobile/Tablet/Compact Desktop Menu Toggle */}
+             {/* Visible up to 1600px (when socials appear in header) to ensure socials are accessible via menu */}
+             <div className="flex items-center gap-4 min-[1600px]:hidden">
                   {/* Show simple Login on mobile/tablet */}
                   <button className="md:hidden text-cyan-400 font-cyber text-xs uppercase tracking-wider hover:text-white">
                       Log In
@@ -139,7 +142,7 @@ export default function App() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-0 z-[90] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 xl:hidden"
+              className="fixed inset-0 z-[90] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 min-[1600px]:hidden"
             >
                <button onClick={() => { goHome(); setIsMenuOpen(false); }} className="text-3xl font-cyber text-white hover:text-cyan-400 transition-colors">HOME</button>
                
@@ -151,7 +154,7 @@ export default function App() {
                
                <div className="h-px w-16 bg-white/10" />
                
-               {/* Mobile Socials */}
+               {/* Mobile Socials - Visible in menu when hidden in header */}
                <div className="scale-90">
                  <SocialIconsBar />
                </div>
