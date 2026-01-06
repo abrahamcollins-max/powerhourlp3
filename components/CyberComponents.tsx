@@ -168,7 +168,7 @@ export const TiltCard: React.FC<{ children: React.ReactNode; className?: string 
                         rgba(255,255,255,0.08) 0%, 
                         transparent 50%
                     )`,
-                    opacity: useTransform(useSpring(useTransform([mouseX, mouseY], ([x, y]) => Math.abs(x) + Math.abs(y))), [0, 1], [0, 1])
+                    opacity: useTransform(useSpring(useTransform([mouseX, mouseY], ([x, y]: any[]) => Math.abs(x) + Math.abs(y))), [0, 1], [0, 1])
                 }}
             />
         </div>
