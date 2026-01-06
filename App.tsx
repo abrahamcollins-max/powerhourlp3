@@ -69,7 +69,7 @@ export default function App() {
         <nav className="absolute top-0 left-0 right-0 z-50 py-2 md:py-4 px-4 md:px-8 flex items-center justify-between h-20 md:h-28 transition-all duration-300 bg-gradient-to-b from-black/80 to-transparent">
           
           {/* Left: Logo */}
-          <div className="flex items-center gap-4 cursor-pointer z-10" onClick={goHome}>
+          <div className="flex items-center gap-4 cursor-pointer z-10 shrink-0" onClick={goHome}>
             <div className="relative group">
               <div className="absolute -inset-2 bg-cyan-500/20 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               <img 
@@ -80,51 +80,55 @@ export default function App() {
             </div>
           </div>
 
-          {/* Center: Desktop Links */}
+          {/* Center: Desktop Links (Visible on XL+, Absolute Center) */}
           <div className="hidden xl:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-12 font-cyber tracking-widest text-sm z-0">
             <button onClick={goDown} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">How It Works</button>
             <button onClick={goLeft} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">Tournaments</button>
             <button onClick={goRight} className="hover:text-cyan-400 transition-colors hover:scale-105 transform duration-200">Contact Us</button>
           </div>
 
-          {/* Right: Socials & Auth Buttons */}
-          <div className="hidden md:flex gap-6 z-10 items-center">
+          {/* Right: Socials, Auth, Mobile Toggle */}
+          <div className="flex items-center gap-4 md:gap-6 z-10 shrink-0">
              
-             {/* Socials moved to Header */}
-             <div className="scale-75 origin-right">
-                <SocialIconsBar />
+             {/* Desktop Buttons & Socials Container */}
+             <div className="hidden md:flex items-center gap-6">
+                 {/* Socials - Hidden on smaller desktops to prevent overlap with center links */}
+                 <div className="hidden 2xl:block scale-75 origin-right">
+                    <SocialIconsBar />
+                 </div>
+
+                 <div className="hidden 2xl:block h-8 w-px bg-white/20 mx-2" />
+
+                 <button className={navButtonClass}>
+                   Log In
+                 </button>
+                 <button className={navButtonClass}>
+                   Join The Ranks
+                 </button>
              </div>
 
-             <div className="h-8 w-px bg-white/20 mx-2" />
-
-             <button className={navButtonClass}>
-               Log In
-             </button>
-             <button className={navButtonClass}>
-               Join The Ranks
-             </button>
+             {/* Mobile/Tablet Menu Toggle (Visible up to XL) */}
+             <div className="flex items-center gap-4 xl:hidden">
+                  {/* Show simple Login on mobile/tablet */}
+                  <button className="md:hidden text-cyan-400 font-cyber text-xs uppercase tracking-wider hover:text-white">
+                      Log In
+                  </button>
+                  <button className="text-cyan-400 z-10 p-2 relative" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <AnimatePresence mode='wait'>
+                        {isMenuOpen ? (
+                            <motion.div key="close" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }}>
+                                <X size={28} />
+                            </motion.div>
+                        ) : (
+                            <motion.div key="menu" initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: -90 }}>
+                                <Menu size={28} />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                  </button>
+             </div>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-4 md:hidden z-10">
-              {/* Show simple Login on mobile */}
-              <button className="text-cyan-400 font-cyber text-xs uppercase tracking-wider hover:text-white">
-                  Log In
-              </button>
-              <button className="text-cyan-400 z-10 p-2 relative" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                <AnimatePresence mode='wait'>
-                    {isMenuOpen ? (
-                        <motion.div key="close" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }}>
-                            <X size={28} />
-                        </motion.div>
-                    ) : (
-                        <motion.div key="menu" initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: -90 }}>
-                            <Menu size={28} />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-              </button>
-          </div>
         </nav>
 
         {/* --- Mobile Menu Overlay --- */}
@@ -135,7 +139,7 @@ export default function App() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-0 z-[90] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+              className="fixed inset-0 z-[90] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 xl:hidden"
             >
                <button onClick={() => { goHome(); setIsMenuOpen(false); }} className="text-3xl font-cyber text-white hover:text-cyan-400 transition-colors">HOME</button>
                
